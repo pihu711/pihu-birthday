@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>HAPPY BIRTHDAY PIHU 🎂</title>
+<meta name="description" content="Premium birthday page for Pihu with animations, slideshow, fireworks, balloons, hearts, theme park and wishes.">
+<style>
+  :root{
+    --glass: rgba(0,0,0,.35);
+    --accent: #ff6fb7;
+    --gold: #ffd166;
+  }
+  *{box-sizing:border-box}
+  html,body{height:100%;margin:0}
+  body{
+    font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial, "Noto Sans", "Apple Color Emoji", "Segoe UI Emoji";
+    color:#fff; overflow-x:hidden; background:#000;
+  }
+
+  /* ======== FADE SLIDESHOW (FULL IMAGE - no crop) ======== */
+  .slideshow{
+    position:fixed; inset:0; z-index:-2; background:#000;
+  }
+  .slide{
+    position:absolute; inset:0; opacity:0; transition:opacity 1s ease;
+    display:flex; align-items:center; justify-content:center;
+  }
+  .slide img{
+    width:100vw; height:100vh; object-fit:contain; /* full image visible */
+    filter:brightness(.9);
+  }
+  /* 4-image fade cycle */
+  .slide:nth-child(1){animation:fade 24s infinite; }
+  .slide:nth-child(2){animation:fade 24s infinite 6s;}
+  .slide:nth-child(3){animation:fade 24s infinite 12s;}
+  .slide:nth-child(4){animation:fade 24s infinite 18s;}
+  @keyframes fade{ 0%{opacity:0} 4%{opacity:1} 21%{opacity:1} 25%{opacity:0} 100%{opacity:0} }
+
+  /* Subtle overlay gradient for readability */
+  .overlay{
+    position:fixed; inset:0; z-index:-1;
+    background: radial-gradient(1200px 600px at 50% 20%, rgba(0,0,0,.15), transparent),
+                linear-gradient(to bottom, rgba(0,0,0,.25), rgba(0,0,0,.6));
+    pointer-events:none;
+  }
+
+  header{
+    text-align:center; padding:28px 16px 8px;
+  }
+  h1{
+    margin:0;
+    font-size: clamp(28px, 4vw, 54px);
+    letter-spacing:.5px;
+    text-shadow:0 8px 30px rgba(0,0,0,.8);
+  }
+
+  /* Center frame image + date text */
+  .frame-wrap{display:flex; flex-direction:column; align-items:center; gap:16px; padding:10px 16px;}
+  .frame{
+    width:min(92vw, 420px); aspect-ratio:1/1; border:6px solid rgba(255,255,255,.85);
+    border-radius:24px; overflow:hidden; box-shadow:0 20px 60px rgba(0,0,0,.6);
+    backdrop-filter: blur(2px);
+  }
+  .frame img{width:100%; height:100%; object-fit:contain; background:#000}
+  .special-day{
+    font-weight:800; color:var(--gold); text-align:center;
+    font-size:clamp(18px, 2.8vw, 28px); text-shadow:0 2px 14px rgba(0,0,0,.9);
+  }
+
+  /* Shayari block */
+  .shayari{
+    max-width:820px; margin:18px auto 8px; padding:16px 18px;
+    text-align:center; font-size:clamp(16px, 2.2vw, 24px);
+    background:linear-gradient(135deg, rgba(255,255,255,.10), rgba(255,255,255,.04));
+    border:1px solid rgba(255,255,255,.18); border-radius:18px;
+    animation:glow 2s ease-in-out infinite alternate;
+  }
+  @keyframes glow{from{box-shadow:0 0 10px rgba(255,111,183,.35)} to{box-shadow:0 0 22px rgba(255,209,102,.45)}}
+  .hubby{ text-align:center; margin:8px 0 0; font-weight:700; color:#ffd6e7; }
+
+  /* 50+ Languages auto-scroll */
+  .languages{max-width:520px; margin:28px auto; height:230px; overflow:hidden; border-radius:14px; border:1px solid rgba(255,255,255,.25); background:var(--glass)}
+  .lang-track{display:flex; flex-direction:column; animation:scrollY 40s linear infinite}
+  @keyframes scrollY { 0%{transform:translateY(100%)} 100%{transform:translateY(-100%)} }
+  .lang-item{padding:7px 8px; text-align:center; font-size:clamp(14px,2vw,18px)}
+
+  /* Cake + candles */
+  .cake{
+    display:grid; place-items:center; margin:16px 0 8px; font-size:64px;
+    filter:drop-shadow(0 8px 24px rgba(0,0,0,.6));
+  }
+  .candles{display:flex; gap:10px; justify-content:center; margin-bottom:6px; font-size:26px}
+  .candles span{animation:flicker 1.2s infinite alternate ease-in-out}
+  .candles span:nth-child(2){animation-delay:.3s}
+  .candles span:nth-child(3){animation-delay:.6s}
+  @keyframes flicker{from{transform:translateY(0); opacity:.8} to{transform:translateY(-2px); opacity:1}}
+
+  /* Theme Park Section */
+  .theme-park{ text-align:center; margin:30px 0 10px; }
+  .icons{ display:flex; justify-content:center; gap:30px; flex-wrap:wrap; font-size:56px; padding:10px}
+  .icons .ic{ transition: transform .3s ease, filter .3s ease; cursor:pointer; }
+  .icons .ic:hover{ transform: translateY(-6px) scale(1.08) rotate(4deg); filter: drop-shadow(0 8px 16px rgba(0,0,0,.5)); }
+
+  /* Footer */
+  footer{ text-align:center; padding:18px; margin-top:12px; background:var(--glass); border-top:1px solid rgba(255,255,255,.2) }
+
+  /* Balloons + Hearts */
+  .float{ position:fixed; bottom:-80px; font-size:38px; opacity:.9; animation:rise linear infinite; z-index:0}
+  @keyframes rise{ 0%{transform:translateY(0) translateX(0)} 100%{transform:translateY(-120vh) translateX(10vw)} }
+
+  /* Fireworks canvas */
+  canvas.fireworks{ position:fixed; inset:0; z-index:0; pointer-events:none; }
+
+  /* Music button */
+  .music{
+    position:fixed; right:14px; bottom:14px; z-index:10;
+    background:rgba(0,0,0,.55); border:1px solid rgba(255,255,255,.35);
+    padding:10px 14px; border-radius:999px; backdrop-filter: blur(4px);
+    cursor:pointer; font-weight:700; color:#fff;
+  }
+</style>
+</head>
+<body>
+  <!-- Slideshow -->
+  <div class="slideshow" aria-hidden="true">
+    <div class="slide"><img src="images/bg1.jpg" alt=""></div>
+    <div class="slide"><img src="images/bg2.jpg" alt=""></div>
+    <div class="slide"><img src="images/bg3.jpg" alt=""></div>
+    <div class="slide"><img src="images/bg4.jpg" alt=""></div>
+  </div>
+  <div class="overlay" aria-hidden="true"></div>
+
+  <header>
+    <h1>𝐇𝐀𝐏𝐏𝐘 𝐁𝐈𝐑𝐓𝐇𝐃𝐀𝐘 𝐌𝐈𝐍𝐄 𝐏𝐈𝐇𝐔 𝐁𝐀𝐁𝐘 🫶</h1>
+  </header>
+
+  <div class="frame-wrap">
+    <div class="frame">
+      <img src="images/bg2.jpg" alt="Pihu Center Image">
+    </div>
+    <div class="special-day">27 NOVEMBER 2025 • THIS IS VERY SPECIAL DAY</div>
+  </div>
+
+  <div class="shayari">
+    ✨ Tere bina adhuri hai meri zindagi,<br>
+    Teri muskaan se hi roshan hai har ghadi.<br>
+    Janmadin par bas yahi dua hai mere dil se,<br>
+    Har khushi mile tujhe is jahaan ki. 💖🎂✨
+  </div>
+  <div class="hubby">Best wishes from your hubby Harshu 💕</div>
+
+  <!-- Languages -->
+  <section class="languages">
+    <div class="lang-track">
+      <div class="lang-item">Happy Birthday Baby (English)</div>
+      <div class="lang-item">Janmadin Mubarak Ho Baby (Hindi)</div>
+      <div class="lang-item">Janmadin Ki Shubhkamnaye Baby (Sanskrit)</div>
+      <div class="lang-item">Janmadin Mubarak Baby (Urdu)</div>
+      <div class="lang-item">Shubho Jonmodin Baby (Bengali)</div>
+      <div class="lang-item">Puttinaroju Subhakankshalu Baby (Telugu)</div>
+      <div class="lang-item">Pirandha Naal Vazthukkal Baby (Tamil)</div>
+      <div class="lang-item">Janmadina Shubhashayagalu Baby (Kannada)</div>
+      <div class="lang-item">Janmadina Aashamsakal Baby (Malayalam)</div>
+      <div class="lang-item">Janamdin Di Mubarakaan Baby (Punjabi)</div>
+      <div class="lang-item">Janmadin Mubarak Baby (Gujarati)</div>
+      <div class="lang-item">Vadhdivsachya Shubhechha Baby (Marathi)</div>
+      <div class="lang-item">Feliz Cumpleaños Baby (Spanish)</div>
+      <div class="lang-item">Joyeux Anniversaire Baby (French)</div>
+      <div class="lang-item">Buon Compleanno Baby (Italian)</div>
+      <div class="lang-item">Alles Gute zum Geburtstag Baby (German)</div>
+      <div class="lang-item">Feliz Aniversário Baby (Portuguese)</div>
+      <div class="lang-item">Selamat Ulang Tahun Baby (Indonesian)</div>
+      <div class="lang-item">Selamat Hari Jadi Baby (Malay)</div>
+      <div class="lang-item">Otanjoubi Omedetou Baby (Japanese)</div>
+      <div class="lang-item">Saeng-il Chukha Hamnida Baby (Korean)</div>
+      <div class="lang-item">Shēng Rì Kuài Lè Baby (Mandarin)</div>
+      <div class="lang-item">Tavalodet Mobarak Baby (Persian)</div>
+      <div class="lang-item">Mutlu Yıllar Baby (Turkish)</div>
+      <div class="lang-item">Eid Milad Saeed Baby (Arabic)</div>
+      <div class="lang-item">Gratulerer Med Dagen Baby (Norwegian)</div>
+      <div class="lang-item">Grattis På Födelsedagen Baby (Swedish)</div>
+      <div class="lang-item">Til Hamingju Með Afmælið Baby (Icelandic)</div>
+      <div class="lang-item">Hyvää Syntymäpäivää Baby (Finnish)</div>
+      <div class="lang-item">Sto Lat Baby (Polish)</div>
+      <div class="lang-item">La Mulți Ani Baby (Romanian)</div>
+      <div class="lang-item">Gelukkige Verjaardag Baby (Dutch)</div>
+      <div class="lang-item">Sretan Rođendan Baby (Croatian)</div>
+      <div class="lang-item">Všechno nejlepší Baby (Czech)</div>
+      <div class="lang-item">Všetko najlepšie Baby (Slovak)</div>
+      <div class="lang-item">Boldog Születésnapot Baby (Hungarian)</div>
+      <div class="lang-item">Χρόνια Πολλά Baby (Greek / Chronia Polla)</div>
+      <div class="lang-item">Z Dnem Narodzhennya Baby (Ukrainian)</div>
+      <div class="lang-item">S Dnem Rozhdeniya Baby (Russian)</div>
+      <div class="lang-item">Shnorhavor Tsnundd Baby (Armenian)</div>
+      <div class="lang-item">Su Sukuhi Baby (Bodo)</div>
+      <div class="lang-item">Wszystkiego Najlepszego Baby (Polish alt)</div>
+      <div class="lang-item">Eku Odun Ayabo Baby (Yoruba)</div>
+      <div class="lang-item">Melkam Lidete Baby (Amharic)</div>
+      <div class="lang-item">Isuku Lokuzalwa Omuhle Baby (Zulu)</div>
+      <div class="lang-item">Siku Ya Kuzaliwa Njema Baby (Swahili)</div>
+      <div class="lang-item">Rojbûna Te Pîroz Be Baby (Kurdish Kurmanji)</div>
+      <div class="lang-item">Tâwarîkê We Pîroz Be Baby (Kurdish Sorani)</div>
+      <div class="lang-item">Feliz Aniversário Baby (Galician)</div>
+      <div class="lang-item">Per molts anys Baby (Catalan)</div>
+      <div class="lang-item">Breithlá Sona Duit Baby (Irish)</div>
+      <div class="lang-item">Penblwydd Hapus Baby (Welsh)</div>
+      <div class="lang-item">Latha Breith Sona Baby (Scottish Gaelic)</div>
+      <div class="lang-item">Hauʻoli Lā Hānau Baby (Hawaiian)</div>
+      <div class="lang-item">Barka da Ranar Haihuwa Baby (Hausa)</div>
+      <div class="lang-item">Tavalud Muborak Baby (Tajik)</div>
+      <div class="lang-item">Yom Huledet Sameach Baby (Hebrew)</div>
+      <div class="lang-item">Selamat Ulang Tahun Sayang (Malay casual)</div>
+      <div class="lang-item">Bon Anivèsè Baby (Haitian Creole)</div>
+      <div class="lang-item">Feliz Aniversário Baby (Brazil PT)</div>
+      <div class="lang-item">Buon Cumple Baby (Italian slang)</div>
+    </div>
+  </section>
+
+  <!-- Cake -->
+  <div class="candles" aria-hidden="true"><span>🕯️</span><span>🕯️</span><span>🕯️</span></div>
+  <div class="cake" role="img" aria-label="Birthday cake">🎂</div>
+
+  <!-- Theme Park -->
+  <section class="theme-park">
+    <h2>🎡 Theme Park Fun</h2>
+    <div class="icons">
+      <div class="ic" title="Roller Coaster">🎢</div>
+      <div class="ic" title="Ferris Wheel">🎡</div>
+      <div class="ic" title="Candy Stall">🍭</div>
+      <div class="ic" title="Carousel">🎠</div>
+    </div>
+  </section>
+
+  <!-- Fireworks -->
+  <canvas class="fireworks"></canvas>
+
+  <button class="music" id="musicBtn">▶️ Music</button>
+  <audio id="bgm" src="music.mp3" loop></audio>
+
+  <footer>Made love with Harshu 🔒❤️</footer>
+
+<script>
+  /* ===== Floating balloons & hearts ===== */
+  function spawnFloat(char, sizeMin=28, sizeMax=46, durationMin=8, durationMax=14){
+    const e = document.createElement('div');
+    e.className='float';
+    e.textContent=char;
+    e.style.left = Math.random()*100 + 'vw';
+    const dur = (Math.random()*(durationMax-durationMin)+durationMin).toFixed(2);
+    e.style.animationDuration = dur + 's';
+    e.style.fontSize = (Math.random()*(sizeMax-sizeMin)+sizeMin) + 'px';
+    document.body.appendChild(e);
+    setTimeout(()=>e.remove(), dur*1000);
+  }
+  setInterval(()=>spawnFloat('🎈'), 900);
+  setInterval(()=>spawnFloat('❤️', 22, 34, 7, 12), 1300);
+
+  /* ===== Fireworks ===== */
+  const canvas = document.querySelector('canvas.fireworks');
+  const ctx = canvas.getContext('2d');
+  function resize(){ canvas.width=innerWidth; canvas.height=innerHeight }
+  addEventListener('resize', resize); resize();
+
+  function rand(min,max){ return Math.random()*(max-min)+min; }
+  class Particle{
+    constructor(x,y,c){ this.x=x; this.y=y; this.vx=rand(-3,3); this.vy=rand(-3,3); this.life=rand(60,100); this.c=c; }
+    step(){ this.x+=this.vx; this.y+=this.vy; this.vy+=0.02; this.life--; }
+    draw(){ ctx.fillStyle=this.c; ctx.beginPath(); ctx.arc(this.x,this.y,2,0,Math.PI*2); ctx.fill(); }
+  }
+  class Firework{
+    constructor(){ this.x=rand(0,canvas.width); this.y=canvas.height; this.ty=rand(canvas.height*.2, canvas.height*.5); this.c=`hsl(${rand(0,360)},100%,55%)`; this.p=[]; this.exploded=false; }
+    step(){
+      if(!this.exploded){ this.y-=6; if(this.y<=this.ty){ this.exploded=true; for(let i=0;i<60;i++) this.p.push(new Particle(this.x,this.y,this.c)); } }
+      this.p.forEach(pt=>pt.step());
+      this.p = this.p.filter(pt=>pt.life>0);
+    }
+    draw(){
+      if(!this.exploded){ ctx.fillStyle=this.c; ctx.beginPath(); ctx.arc(this.x,this.y,2,0,Math.PI*2); ctx.fill(); }
+      this.p.forEach(pt=>pt.draw());
+    }
+  }
+  const fireworks=[];
+  function loop(){
+    ctx.clearRect(0,0,canvas.width,canvas.height);
+    if(Math.random()<0.05) fireworks.push(new Firework());
+    fireworks.forEach((f,i)=>{ f.step(); f.draw(); if(f.exploded && f.p.length===0) fireworks.splice(i,1); });
+    requestAnimationFrame(loop);
+  }
+  loop();
+
+  /* ===== Music autoplay helper (requires first user interaction in most browsers) ===== */
+  const audio = document.getElementById('bgm');
+  const btn = document.getElementById('musicBtn');
+  function toggleMusic(){
+    if(audio.paused){ audio.play().then(()=>{ btn.textContent='⏸️ Pause'; }).catch(()=>{ btn.textContent='▶️ Tap to Play'; }); }
+    else{ audio.pause(); btn.textContent='▶️ Music'; }
+  }
+  btn.addEventListener('click', toggleMusic);
+  // Attempt start on first user interaction anywhere
+  const tryStart = ()=>{ toggleMusic(); document.removeEventListener('click', tryStart); };
+  document.addEventListener('click', tryStart, {once:true});
+</script>
+</body>
+</html>
